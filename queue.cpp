@@ -315,7 +315,7 @@ bool frame_queue::dequeue(uint8_t* dest, int W, int H, format fmt)
     using namespace std::chrono_literals;
 
     // If there is no data in the buffer, wait until data becomes available
-    bool status = notify_frame_.wait_for(lock, 50ms, [this]() { return available_ != 0; });
+    bool status = notify_frame_.wait_for(lock, 1s, [this]() { return available_ != 0; });
     if (!status)
         return false;
 
