@@ -25,6 +25,7 @@ else()
         set(libusb_FOUND TRUE)
         link_directories("${SDK_LIBUSB}")
         include_directories(SYSTEM "${SDK_LIBUSB}")
+        link_libraries(libusb-1.0)
     endif()
 endif()
 

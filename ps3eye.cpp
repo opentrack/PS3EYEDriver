@@ -221,24 +221,24 @@ void camera::release()
         close_usb();
     }
     handle_ = nullptr;
-    set_error(NO_ERROR);
+    set_error(ERROR_OK);
 }
 
 void camera::set_error(int code)
 {
-    if (code == NO_ERROR || error_code_ == NO_ERROR)
+    if (code == ERROR_OK || error_code_ == ERROR_OK)
     {
         error_code_ = code;
-        if (code != NO_ERROR)
+        if (code != ERROR_OK)
             ps3eye_debug("usb error %s (%d)\n", error_string(), code);
     }
 }
 
 bool camera::init(resolution res, int framerate, format fmt)
 {
-    set_error(NO_ERROR);
+    set_error(ERROR_OK);
     stop();
-    if (error_code_ != NO_ERROR)
+    if (error_code_ != ERROR_OK)
         release();
 
     // open usb device so we can setup and go
@@ -285,7 +285,7 @@ bool camera::init(resolution res, int framerate, format fmt)
 
 bool camera::start()
 {
-    if (!is_initialized() || streaming_ || error_code_ != NO_ERROR)
+    if (!is_initialized() || streaming_ || error_code_ != ERROR_OK)
         return false;
 
     if (resolution_ == res_QVGA)
@@ -406,7 +406,7 @@ bool camera::get_frame(uint8_t* frame)
     if (!streaming_)
         return false;
 
-    if (error_code_ != NO_ERROR && handle_)
+    if (error_code_ != ERROR_OK && handle_)
     {
         stop();
         release();
@@ -565,7 +565,7 @@ int camera::ov534_set_frame_rate(int frame_rate, bool dry_run)
 
 void camera::ov534_reg_write(uint16_t reg, uint8_t val)
 {
-    if (error_code_ != NO_ERROR)
+    if (error_code_ != ERROR_OK)
         return;
 
     int ret;
@@ -581,7 +581,7 @@ void camera::ov534_reg_write(uint16_t reg, uint8_t val)
 
 uint8_t camera::ov534_reg_read(uint16_t reg)
 {
-    if (error_code_ != NO_ERROR)
+    if (error_code_ != ERROR_OK)
         return 0;
 
     int ret;
@@ -601,7 +601,7 @@ uint8_t camera::ov534_reg_read(uint16_t reg)
 
 bool camera::sccb_check_status()
 {
-    if (error_code_ != NO_ERROR)
+    if (error_code_ != ERROR_OK)
         return false;
 
     bool ret = false;
@@ -610,7 +610,7 @@ bool camera::sccb_check_status()
     {
         uint8_t data = ov534_reg_read(OV534_REG_STATUS);
 
-        if (error_code_ != NO_ERROR)
+        if (error_code_ != ERROR_OK)
             return false;
 
         switch (data)
@@ -662,7 +662,7 @@ void camera::reg_w_array(const uint8_t (*data)[2], int len)
 {
     while (--len >= 0)
     {
-        if (error_code_ != NO_ERROR)
+        if (error_code_ != ERROR_OK)
             break;
         ov534_reg_write((*data)[0], (*data)[1]);
         data++;
@@ -689,7 +689,7 @@ void camera::sccb_w_array(const uint8_t (*data)[2], int len)
 
 const char* camera::error_string() const
 {
-    if (error_code_ == NO_ERROR)
+    if (error_code_ == ERROR_OK)
         return nullptr;
 
     return libusb_strerror((libusb_error)error_code_);

@@ -110,7 +110,7 @@ struct camera
     constexpr int error_code() const { return error_code_; }
     const char* error_string() const;
 
-    static constexpr int NO_ERROR = 0;
+    static constexpr int ERROR_OK = 0;
 
 private:
     static const ps3eye::detail::rate_s& _normalize_framerate(int fps, resolution res);
@@ -132,7 +132,7 @@ private:
 
     void set_error(int code);
 
-    int error_code_ = NO_ERROR;
+    int error_code_ = ERROR_OK;
 
     template<uint8_t min = 0, uint8_t max = 255> using val = ps3eye::detail::val_<uint8_t, min, max>;
     template<int8_t min, uint8_t max> using val_ = ps3eye::detail::val_<int8_t, min, max>;
