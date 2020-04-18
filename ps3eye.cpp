@@ -563,6 +563,11 @@ int camera::ov534_set_frame_rate(int frame_rate, bool dry_run)
     return rate.fps;
 }
 
+#if defined __clang__ && __clang_major__ >= 10
+#   pragma clang diagnostic push
+#   pragma clang diagnostic ignored "-Wenum-enum-conversion"
+#endif
+
 void camera::ov534_reg_write(uint16_t reg, uint8_t val)
 {
     if (error_code_ != ERROR_OK)
@@ -598,6 +603,10 @@ uint8_t camera::ov534_reg_read(uint16_t reg)
     else
         return usb_buf[0];
 }
+
+#if defined __clang__ && __clang_major__ >= 10
+#   pragma clang diagnostic pop
+#endif
 
 bool camera::sccb_check_status()
 {
