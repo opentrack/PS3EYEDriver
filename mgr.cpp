@@ -107,6 +107,8 @@ std::vector<std::shared_ptr<camera>> usb_manager::list_devices()
                 libusb_ref_device(dev);
                 cnt++;
             }
+            else
+                ps3eye_debug("failed open device: %d\n", err);
         }
     }
 
