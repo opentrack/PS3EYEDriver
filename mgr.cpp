@@ -42,13 +42,13 @@ void usb_manager::camera_started()
 {
     assert(usb_context);
 
-    if (active_camera_count.fetch_add(1, std::memory_order_relaxed) == 0)
+    if (active_camera_count.fetch_add(1) == 0)
         start_xfer_thread();
 }
 
 void usb_manager::camera_stopped()
 {
-    if (active_camera_count.fetch_sub(1, std::memory_order_relaxed) == 1)
+    if (active_camera_count.fetch_sub(1) == 1)
         stop_xfer_thread();
 }
 
