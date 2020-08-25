@@ -275,10 +275,10 @@ bool camera::init(resolution res, int framerate, format fmt)
 
     /* initialize */
     reg_w_array(ov534_reg_initdata, std::size(ov534_reg_initdata));
-    //ov534_set_led(1);
+    ov534_set_led(1);
     sccb_w_array(ov772x_reg_initdata, std::size(ov772x_reg_initdata));
     ov534_reg_write(0xe0, 0x09);
-    //ov534_set_led(0);
+    ov534_set_led(0);
 
     return true;
 }
