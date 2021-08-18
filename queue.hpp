@@ -24,7 +24,7 @@ struct frame_queue final
 
 private:
     static constexpr unsigned max_frame_size = 640*480;
-    static constexpr unsigned max_buffered_frames = 5;
+    static constexpr unsigned max_buffered_frames = 50;
 
     std::mutex mutex_;
     std::condition_variable notify_frame_;
