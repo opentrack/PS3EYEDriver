@@ -230,7 +230,7 @@ void camera::set_error(int code)
     {
         error_code_ = code;
         if (code != ERROR_OK)
-            ps3eye_debug("usb error %s (%d)\n", error_string(), code);
+            ps3eye_debug("usb error %s (%d)", error_string(), code);
     }
 }
 
@@ -270,7 +270,7 @@ bool camera::init(resolution res, int framerate, format fmt)
     uint16_t sensor_id = sccb_reg_read(0x0a) << 8;
     sccb_reg_read(0x0b);
     sensor_id |= sccb_reg_read(0x0b);
-    ps3eye_debug("Sensor ID: %04x\n", sensor_id);
+    ps3eye_debug("Sensor ID: %04x", sensor_id);
 #endif
 
     /* initialize */
@@ -423,7 +423,7 @@ bool camera::open_usb()
     int res = libusb_open(device_, &handle_);
     if (res != 0)
     {
-        ps3eye_debug("device open error: %d\n", res);
+        ps3eye_debug("device open error: %d", res);
         set_error(res);
         return false;
     }
@@ -438,7 +438,7 @@ bool camera::open_usb()
     res = libusb_claim_interface(handle_, 0);
     if (res != 0)
     {
-        ps3eye_debug("device claim interface error: %d\n", res);
+        ps3eye_debug("device claim interface error: %d", res);
         set_error(res);
         return false;
     }
@@ -633,13 +633,13 @@ bool camera::sccb_check_status()
         case 0x03:
             break;
         default:
-            ps3eye_debug("sccb status 0x%02x, attempt %d/5\n", data, i + 1);
+            ps3eye_debug("sccb status 0x%02x, attempt %d/5", data, i + 1);
         }
 
         std::this_thread::yield();
     }
 
-    ps3eye_debug("sscb status failure\n");
+    ps3eye_debug("sscb status failure");
 
 end:
     return ret;

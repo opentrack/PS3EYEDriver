@@ -337,7 +337,7 @@ bool frame_queue::dequeue(uint8_t* dest, int W, int H, format fmt)
         debayer_gray(W, H, source, dest);
         break;
     default:
-        ps3eye_debug("invalid format %d in dequeue()\n", (int)fmt);
+        ps3eye_debug("invalid format %d in dequeue()", (int)fmt);
         break;
     }
 

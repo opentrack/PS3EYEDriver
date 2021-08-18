@@ -38,13 +38,13 @@ static bool test(ps3eye::camera& cam, int fps, ps3eye::resolution res)
             ret &= cam.get_frame(buf.data());
             if (!ret)
             {
-                ps3eye::detail::ps3eye_debug("read failed on frame %d\n", k);
+                ps3eye::detail::ps3eye_debug("read failed on frame %d", k);
                 break;
             }
         }
     }
     else
-        ps3eye::detail::ps3eye_debug("can't read any frame\n");
+        ps3eye::detail::ps3eye_debug("can't read any frame");
 
     printf("[%s] %dx%d@%dHz\n", ret ? "GOOD" : "FAIL", cam.width(), cam.height(), cam.framerate());
 

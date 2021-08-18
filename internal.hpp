@@ -20,7 +20,11 @@ template<unsigned N, typename... xs>
 inline void ps3eye_debug(const char(&fmt)[N], const xs&... args)
 {
     if (_ps3eye_debug_status)
+    {
+        fputs("ps3eye: ", stderr);
         fprintf(stderr, fmt, args...);
+        fputs("\n", stderr);
+    }
 }
 
 #ifdef __GNUG__

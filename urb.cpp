@@ -32,7 +32,7 @@ static void LIBUSB_CALL transfer_completed_callback(struct libusb_transfer* xfr)
 
         if (status != LIBUSB_TRANSFER_CANCELLED)
         {
-            ps3eye_debug("transfer status %d\n", status);
+            ps3eye_debug("transfer status %d", status);
             urb->close_transfers();
         }
         return;
@@ -44,7 +44,7 @@ static void LIBUSB_CALL transfer_completed_callback(struct libusb_transfer* xfr)
 
     if (libusb_submit_transfer(xfr) < 0)
     {
-        ps3eye_debug("error re-submitting URB\n");
+        ps3eye_debug("error re-submitting URB");
         urb->close_transfers();
     }
 }
@@ -236,21 +236,21 @@ void urb_descriptor::pkt_scan(uint8_t* data, int len)
         /* Verify UVC header.  Header length is always 12 */
         if (data[0] != 12 || len < 12)
         {
-            ps3eye_debug("bad header\n");
+            ps3eye_debug("bad header");
             goto discard;
         }
 
         /* Check errors */
         if (data[1] & UVC_STREAM_ERR)
         {
-            ps3eye_debug("payload error\n");
+            ps3eye_debug("payload error, data[1]=%u", data[1]);
             goto discard;
         }
 
         /* Extract PTS and FID */
         if (!(data[1] & UVC_STREAM_PTS))
         {
-            ps3eye_debug("PTS not present\n");
+            ps3eye_debug("PTS not present");
             goto discard;
         }
 
@@ -299,7 +299,7 @@ scan_next:
 
 urb_descriptor::~urb_descriptor()
 {
-    //ps3eye_debug("urb_descriptor destructor\n");
+    //ps3eye_debug("urb_descriptor destructor");
     close_transfers();
 }
 

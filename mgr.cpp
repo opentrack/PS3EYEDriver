@@ -26,7 +26,7 @@ usb_manager::usb_manager()
 
 usb_manager::~usb_manager()
 {
-    //ps3eye_debug("usb_manager destructor\n");
+    //ps3eye_debug("usb_manager destructor");
     if (update_thread.joinable())
         stop_xfer_thread();
     libusb_exit(usb_context);
@@ -89,7 +89,7 @@ std::vector<std::shared_ptr<camera>> usb_manager::list_devices()
 
     if (cnt < 0)
     {
-        ps3eye_debug("Error Device scan\n");
+        ps3eye_debug("Error Device scan");
     }
 
     cnt = 0;
@@ -108,7 +108,7 @@ std::vector<std::shared_ptr<camera>> usb_manager::list_devices()
                 cnt++;
             }
             else
-                ps3eye_debug("failed open device: %d\n", err);
+                ps3eye_debug("failed open device: %d", err);
         }
     }
 

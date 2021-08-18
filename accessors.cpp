@@ -51,7 +51,7 @@ void camera::set_framerate(int val)
     if (!streaming_)
         framerate_ = normalize_framerate(val);
     else
-        ps3eye_debug("Can't change framerate while streaming\n");
+        ps3eye_debug("Can't change framerate while streaming");
 }
 
 void camera::set_test_pattern_status(bool enable)
