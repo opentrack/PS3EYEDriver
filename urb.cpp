@@ -26,21 +26,18 @@ static void LIBUSB_CALL transfer_completed_callback(struct libusb_transfer* xfr)
     urb_descriptor* urb = reinterpret_cast<urb_descriptor*>(xfr->user_data);
     enum libusb_transfer_status status = xfr->status;
 
-    if (status != LIBUSB_TRANSFER_COMPLETED)
-    {
-        urb->transfer_cancelled();
+    if (status == LIBUSB_TRANSFER_CANCELLED)
+        return urb->transfer_cancelled();
 
-        if (status != LIBUSB_TRANSFER_CANCELLED)
-        {
-            ps3eye_debug("transfer status %d", status);
-            urb->close_transfers();
-        }
-        return;
+    if (status == LIBUSB_TRANSFER_COMPLETED)
+        urb->pkt_scan(xfr->buffer, xfr->actual_length);
+    else
+    {
+        ps3eye_debug("transfer error %d", status);
+        urb->frame_add(DISCARD_PACKET, NULL, 0);
     }
 
     // debug("length:%u, actual_length:%u\n", xfr->length, xfr->actual_length);
-
-    urb->pkt_scan(xfr->buffer, xfr->actual_length);
 
     if (libusb_submit_transfer(xfr) < 0)
     {
