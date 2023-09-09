@@ -396,6 +396,10 @@ int camera::bytes_per_pixel() const
         return 3;
     else if (format_ == format::RGB)
         return 3;
+	else if (format_ == format::BGRA)
+		return 4;
+	else if (format_ == format::RGBA)
+		return 4;
     else if (format_ == format::Gray)
         return 1;
     return 0;

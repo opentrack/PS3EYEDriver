@@ -46,6 +46,8 @@ enum class format
     Bayer, // Output in Bayer. Destination buffer must be width * height bytes
     BGR, // Output in BGR. Destination buffer must be width * height * 3 bytes
     RGB, // Output in RGB. Destination buffer must be width * height * 3 bytes
+	BGRA,// Output in BGRA. Destination buffer must be width * height * 4 bytes
+	RGBA,// Output in RGBA. Destination buffer must be width * height * 4 bytes
     Gray // Output in Grayscale. Destination buffer must be width * height bytes
 };
 } // ns ps3eye

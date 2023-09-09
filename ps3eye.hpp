@@ -33,8 +33,10 @@ enum class resolution : uint8_t {
 static constexpr inline auto res_VGA = resolution::VGA;
 static constexpr inline auto res_QVGA = resolution::QVGA;
 
-static constexpr inline auto fmt_RGB = format::RGB;
 static constexpr inline auto fmt_BGR = format::BGR;
+static constexpr inline auto fmt_RGB = format::RGB;
+static constexpr inline auto fmt_BGRA = format::BGRA;
+static constexpr inline auto fmt_RGBA = format::RGBA;
 static constexpr inline auto fmt_Gray = format::Gray;
 static constexpr inline auto fmt_Bayer = format::Bayer;
 
