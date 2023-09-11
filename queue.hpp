@@ -20,7 +20,7 @@ struct frame_queue final
     uint8_t* enqueue();
 
     [[nodiscard]]
-    bool dequeue(uint8_t* dest, int W, int H, format fmt);
+    bool dequeue(uint8_t* dest, int W, int H, format fmt, bool flip_v);
 
 private:
     static constexpr unsigned max_frame_size = 640*480;

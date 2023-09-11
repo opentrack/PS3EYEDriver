@@ -418,7 +418,7 @@ bool camera::get_frame(uint8_t* frame)
     }
 
     auto [ w, h ] = size();
-    return urb.queue.dequeue(frame, w, h, format_);
+    return urb.queue.dequeue(frame, w, h, format_, flip_v_);
 }
 
 bool camera::open_usb()

@@ -186,7 +186,7 @@ template<>
 inline void detail::setAlpha<4>(uint8_t *destGreen) { destGreen[2] = 255; }
 
 template<int num_output_channels, bool in_BGR, int swap_br = in_BGR ? 1 : -1>
-static void debayer_rgb(int W, int H, const uint8_t* __restrict input, uint8_t* __restrict buf)
+static void debayer_rgb(int W, int H, const uint8_t* __restrict input, uint8_t* __restrict buf, bool flip_v)
 {
     // PSMove output is in the following Bayer format (GRBG):
     //
@@ -218,7 +218,7 @@ static void debayer_rgb(int W, int H, const uint8_t* __restrict input, uint8_t* 
         uint8_t* dest = dest_row;
 
         // Row starting with Green
-        if (y % 2 == 0)
+        if (y % 2 == (int)flip_v)
         {
             // Fill first pixel (green)
             dest[-1 * swap_br] =
@@ -323,7 +323,7 @@ static void debayer_rgb(int W, int H, const uint8_t* __restrict input, uint8_t* 
     }
 }
 
-bool frame_queue::dequeue(uint8_t* dest, int W, int H, format fmt)
+bool frame_queue::dequeue(uint8_t* dest, int W, int H, format fmt, bool flip_v)
 {
     assert(size_ != UINT_MAX);
 
@@ -344,16 +344,16 @@ bool frame_queue::dequeue(uint8_t* dest, int W, int H, format fmt)
         memcpy(dest, source, size_);
         break;
     case format::BGR:
-        debayer_rgb<3, true>(W, H, source, dest);
+        debayer_rgb<3, true>(W, H, source, dest, flip_v);
         break;
     case format::RGB:
-        debayer_rgb<3, false>(W, H, source, dest);
+        debayer_rgb<3, false>(W, H, source, dest, flip_v);
         break;
 	case format::BGRA:
-		debayer_rgb<4, true>(W, H, source, dest);
+		debayer_rgb<4, true>(W, H, source, dest, flip_v);
 		break;
 	case format::RGBA:
-		debayer_rgb<4, false>(W, H, source, dest);
+		debayer_rgb<4, false>(W, H, source, dest, flip_v);
 		break;
     case format::Gray:
         debayer_gray(W, H, source, dest);
