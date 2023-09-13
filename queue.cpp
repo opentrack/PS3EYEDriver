@@ -225,7 +225,7 @@ static void debayer_rgb(int W, int H, const uint8_t* __restrict input, uint8_t* 
                 (source[source_stride] + source[source_stride + 2] + 1) >> 1;
             dest[0] = source[source_stride + 1];
             dest[1 * swap_br] = (source[1] + source[source_stride * 2 + 1] + 1) >> 1;
-			setAlpha<num_output_channels>(dest);
+            setAlpha<num_output_channels>(dest);
 
             source++;
             dest += num_output_channels;
@@ -242,7 +242,7 @@ static void debayer_rgb(int W, int H, const uint8_t* __restrict input, uint8_t* 
                 cur_pixel[1 * swap_br] =
                     (source[0] + source[2] + source[source_stride * 2] +
                      source[source_stride * 2 + 2] + 2) >> 2;
-				setAlpha<num_output_channels>(cur_pixel);
+                setAlpha<num_output_channels>(cur_pixel);
 
                 //  Green pixel
                 uint8_t* next_pixel = cur_pixel + num_output_channels;
@@ -251,7 +251,7 @@ static void debayer_rgb(int W, int H, const uint8_t* __restrict input, uint8_t* 
                 next_pixel[0] = source[source_stride + 2];
                 next_pixel[1 * swap_br] =
                     (source[2] + source[source_stride * 2 + 2] + 1) >> 1;
-				setAlpha<num_output_channels>(next_pixel);
+                setAlpha<num_output_channels>(next_pixel);
             }
         }
         else
@@ -270,7 +270,7 @@ static void debayer_rgb(int W, int H, const uint8_t* __restrict input, uint8_t* 
                      source[source_stride * 2 + 1] + 2) >> 2;
 
                 cur_pixel[1 * swap_br] = source[source_stride + 1];
-				setAlpha<num_output_channels>(cur_pixel);
+                setAlpha<num_output_channels>(cur_pixel);
 
                 // Green pixel
                 uint8_t* next_pixel = cur_pixel + num_output_channels;
@@ -279,7 +279,7 @@ static void debayer_rgb(int W, int H, const uint8_t* __restrict input, uint8_t* 
                 next_pixel[0] = source[source_stride + 2];
                 next_pixel[1 * swap_br] =
                     (source[source_stride + 1] + source[source_stride + 3] + 1) >> 1;
-				setAlpha<num_output_channels>(next_pixel);
+                setAlpha<num_output_channels>(next_pixel);
             }
         }
 
@@ -290,7 +290,7 @@ static void debayer_rgb(int W, int H, const uint8_t* __restrict input, uint8_t* 
                        source[source_stride * 2 + 1] + 2) >> 2;
             dest[1 * swap_br] = (source[0] + source[2] + source[source_stride * 2] +
                                  source[source_stride * 2 + 2] + 2) >> 2;
-			setAlpha<num_output_channels>(dest);
+            setAlpha<num_output_channels>(dest);
 
             //source++;
             //dest += num_output_channels;
@@ -301,7 +301,7 @@ static void debayer_rgb(int W, int H, const uint8_t* __restrict input, uint8_t* 
         first_pixel[-1 * swap_br] = dest_row[-1 * swap_br];
         first_pixel[0] = dest_row[0];
         first_pixel[1 * swap_br] = dest_row[1 * swap_br];
-		setAlpha<num_output_channels>(first_pixel);
+        setAlpha<num_output_channels>(first_pixel);
 
         // Fill last pixel of row (copy second-to-last pixel). Note: dest row
         // starts at the *second* pixel of the row, so dest_row + (width-2)
@@ -312,7 +312,7 @@ static void debayer_rgb(int W, int H, const uint8_t* __restrict input, uint8_t* 
         last_pixel[-1 * swap_br] = second_to_last_pixel[-1 * swap_br];
         last_pixel[0] = second_to_last_pixel[0];
         last_pixel[1 * swap_br] = second_to_last_pixel[1 * swap_br];
-		setAlpha<num_output_channels>(last_pixel);
+        setAlpha<num_output_channels>(last_pixel);
     }
 
     // Fill first & last row
@@ -349,12 +349,12 @@ bool frame_queue::dequeue(uint8_t* dest, int W, int H, format fmt, bool flip_v)
     case format::RGB:
         debayer_rgb<3, false>(W, H, source, dest, flip_v);
         break;
-	case format::BGRA:
-		debayer_rgb<4, true>(W, H, source, dest, flip_v);
-		break;
-	case format::RGBA:
-		debayer_rgb<4, false>(W, H, source, dest, flip_v);
-		break;
+    case format::BGRA:
+        debayer_rgb<4, true>(W, H, source, dest, flip_v);
+        break;
+    case format::RGBA:
+        debayer_rgb<4, false>(W, H, source, dest, flip_v);
+        break;
     case format::Gray:
         debayer_gray(W, H, source, dest);
         break;
