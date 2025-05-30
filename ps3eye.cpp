@@ -582,8 +582,10 @@ void camera::ov534_reg_write(uint16_t reg, uint8_t val)
     // debug("reg=0x%04x, val=0%02x", reg, val);
     usb_buf[0] = val;
 
-    ret = libusb_control_transfer(handle_, LIBUSB_ENDPOINT_OUT | LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE,
-                                  0x01, 0x00, reg, usb_buf.data(), 1, 500);
+    using u8 = std::uint8_t;
+    constexpr u8 request_type = u8{LIBUSB_ENDPOINT_OUT} | u8{LIBUSB_REQUEST_TYPE_VENDOR} | u8{LIBUSB_RECIPIENT_DEVICE};
+
+    ret = libusb_control_transfer(handle_, request_type, 0x01, 0x00, reg, usb_buf.data(), 1, 500);
     if (ret < 0)
         error_code_ = ret;
 }
@@ -595,8 +597,10 @@ uint8_t camera::ov534_reg_read(uint16_t reg)
 
     int ret;
 
-    ret = libusb_control_transfer(handle_, LIBUSB_ENDPOINT_IN | LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE,
-                                  0x01, 0x00, reg, usb_buf.data(), 1, 500);
+    using u8 = std::uint8_t;
+    constexpr u8 request_type = u8{LIBUSB_ENDPOINT_IN} | u8{LIBUSB_REQUEST_TYPE_VENDOR} | u8{LIBUSB_RECIPIENT_DEVICE};
+
+    ret = libusb_control_transfer(handle_, request_type, 0x01, 0x00, reg, usb_buf.data(), 1, 500);
 
     // debug("reg=0x%04x, data=0x%02x", reg, usb_buf[0]);
     if (ret < 0)
