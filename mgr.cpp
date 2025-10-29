@@ -1,6 +1,10 @@
 #undef NDEBUG
 #include <cassert>
 
+#ifdef _WIN32
+#include <winsock2.h> // struct timeval
+#endif
+
 #include "mgr.hpp"
 #include "internal.hpp"
 #include "ps3eye.hpp"
