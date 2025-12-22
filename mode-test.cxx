@@ -12,7 +12,7 @@ static bool test(ps3eye::camera& cam, int fps, ps3eye::resolution res)
 
     auto [ w, h ] = cam.size();
     auto size = unsigned(w*h*cam.bytes_per_pixel());
-    buf.reserve(size);
+    buf.resize(size);
 
     bool ret = false;
 

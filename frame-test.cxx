@@ -25,7 +25,7 @@ int main(void)
         goto fail;
     }
 
-    vec.reserve(unsigned(camera->stride() * camera->height()));
+    vec.resize(unsigned(camera->stride() * camera->height()));
 
     for (;;)
         if (!camera->get_frame((uint8_t*)vec.data()))
